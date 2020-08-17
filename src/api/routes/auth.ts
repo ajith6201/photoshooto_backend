@@ -30,10 +30,13 @@ export default (app: Router) => {
         likes:Joi.number(),
         city:Joi.string(),
         state:Joi.string(),
-        pincode:Joi.number()
+        pincode:Joi.number(),
+        profile_image:Joi.string().allow(null, ''),
+        lat:Joi.number(),
+        lng:Joi.number()
       }),
     }),
-    async (req: Request, res: Response, next: NextFunction) => { 
+    async (req: Request, res: Response, next: NextFunction) => {
       const logger = Container.get('logger');
       logger.debug('Calling Sign-Up endpoint with body: %o', req.body )
       try {

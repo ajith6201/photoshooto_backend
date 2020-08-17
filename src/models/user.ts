@@ -92,6 +92,19 @@ const User = new mongoose.Schema(
       type: String,
       default: 'user',
     },
+
+    profile_image:
+    {
+      type:String
+    },
+    lat:
+    {
+      type: Number
+    },
+    lng:
+    {
+      type: Number
+    },
     
   },
   { timestamps: true },
