@@ -7,19 +7,23 @@ export default class MailerService {
     @Inject('emailClient') private emailClient
   ) { }
 
-  public async SendWelcomeEmail(email) {
+  public async SendWelcomeEmail(email) { 
     /**
      * @TODO Call Mailchimp/Sendgrid or whatever
      */
     // Added example for sending mail from mailgun
     const data = {
-      from: 'Excited User <me@samples.mailgun.org>',
+      from: 'mpremkumardpk@gmail.com',
       to: email, //your email address
       subject: 'Hello',
       text: 'Testing some Mailgun awesomness!'
     };
 
-    this.emailClient.messages().send(data);
+
+
+    this.emailClient.messages().send(data,function (err, body) {
+      console.log(err);
+    });
     return { delivered: 1, status: 'ok' };
   }
   public StartEmailSequence(sequence: string, user: Partial<IUser>) {
