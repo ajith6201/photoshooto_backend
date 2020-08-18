@@ -3,6 +3,10 @@ import mongoose from 'mongoose';
 
 const User = new mongoose.Schema(
   {
+    custom_id: {
+      type: String,      
+      unique: true
+    },
     first_name: {
       type: String,
       required: [true, 'Please enter a first name'],

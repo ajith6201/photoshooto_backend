@@ -39,11 +39,16 @@ export default class AuthService {
        */
       this.logger.silly('Hashing password');
       const hashedPassword = await argon2.hash(userInputDTO.password, { salt });
+      this.logger.silly('Generating Custom id based on mobile number');
+      const lastFiveDigit = String(userInputDTO.mobile_number).substr(-5);
+      const prefixCode = "DS";
+      const customId = prefixCode.concat(lastFiveDigit.toString());
       this.logger.silly('Creating user db record');
       const userRecord = await this.userModel.create({
         ...userInputDTO,
         salt: salt.toString('hex'),
         password: hashedPassword,
+        custom_id:customId,
       });
       this.logger.silly('Generating JWT');
       const token = this.generateToken(userRecord);
@@ -52,7 +57,7 @@ export default class AuthService {
         throw new Error('User cannot be created');
       }
       this.logger.silly('Sending welcome email');
-      await this.mailer.SendWelcomeEmail(userRecord);
+      await this.mailer.SendWelcomeEmail(userRecord.email);
 
       this.eventDispatcher.dispatch(events.user.signUp, { user: userRecord });
 
